@@ -82,11 +82,11 @@ public class TakingTurnsQueueTests
     }
 
     [TestMethod]
-    // Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
-    // Run 10 times.
-    // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
-    public void TestTakingTurnsQueue_ForeverZero()
+	// Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
+	// Run 10 times.
+	// Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
+	// Defect(s) Found: Expected:<Bob>. Actual:<Sue>. 
+	public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
 
@@ -113,11 +113,11 @@ public class TakingTurnsQueueTests
     }
 
     [TestMethod]
-    // Scenario: Create a queue with the following people and turns: Tim (Forever), Sue (3)
-    // Run 10 times.
-    // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
-    // Defect(s) Found: 
-    public void TestTakingTurnsQueue_ForeverNegative()
+	// Scenario: Create a queue with the following people and turns: Tim (Forever), Sue (3)
+	// Run 10 times.
+	// Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
+	// Defect(s) Found: Expected:<Tim>. Actual:<Sue>. Tim was not returned to the back as expected. Having zero as the value for infinite turns is a bit unintuitive, so maybe the code was treating it as a special case and not putting Tim back in the queue at all.
+	public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
         var tim = new Person("Tim", timTurns);
