@@ -92,8 +92,8 @@ public class LinkedList : IEnumerable<int>
 		// will be affected.
 		else if (_tail is not null)
 		{
-			_tail.Next!.Prev = null; // Disconnect the second node from the first node
-			_tail = _tail.Next; // Update the head to point to the second node
+			_tail.Prev!.Next = null; // Disconnect the second node from the first node
+			_tail = _tail.Prev; // Update the tail to point to the second node
 		}
 	}
 
@@ -139,20 +139,32 @@ public class LinkedList : IEnumerable<int>
 	public void Remove(int value)
 	{
 		// TODO Problem 3
-		// If the list has only one item in it, then set head and tail 
-		// to null resulting in an empty list.  This condition will also
-		// cover an empty list.  Its okay to set to null again.
-		if (_head == _tail && _head is not null && _head.Data == value)
+		// Search for the node that matches 'value' by starting at the 
+		// head of the list.
+		Node? curr = _head;
+
+		while (curr is not null)
 		{
-			_tail = null;
-			_head = null;
-		}
-		// If the list has more than one item in it, then only the head
-		// will be affected.
-		else if (_tail is not null)
-		{
-			_tail.Next!.Prev = null; // Disconnect the second node from the first node
-			_tail = _tail.Next; // Update the head to point to the second node
+			if (curr.Data == value)
+			{
+				// Found the node to remove
+				if (curr == _head)
+				{
+					RemoveHead();
+				}
+				else if (curr == _tail)
+				{
+					RemoveTail();
+				}
+				else
+				{
+					curr.Prev!.Next = curr.Next; // Disconnect the node from the previous node
+					curr.Next!.Prev = curr.Prev; // Disconnect the node from the next node
+				}
+				return;
+			}
+
+			curr = curr.Next; // Go to the next node to search for 'value'
 		}
 	}
 
@@ -163,7 +175,8 @@ public class LinkedList : IEnumerable<int>
 	{
 		// TODO Problem 4
 		var current = _head;
-		while (current != null)
+
+		while (current is not null)
 		{
 			if (current.Data == oldValue)
 			{
@@ -201,7 +214,13 @@ public class LinkedList : IEnumerable<int>
 	public IEnumerable Reverse()
 	{
 		// TODO Problem 5
-		yield return 0; // replace this line with the correct yield return statement(s)
+		var curr = _tail;
+		while (curr is not null)
+		{
+			yield return curr.Data;
+			curr = curr.Prev;
+		}
+		// yield return 0; // replace this line with the correct yield return statement(s)
 	}
 
 	public override string ToString()
